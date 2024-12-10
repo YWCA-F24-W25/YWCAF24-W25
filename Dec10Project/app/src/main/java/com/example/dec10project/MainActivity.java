@@ -28,11 +28,19 @@ public class MainActivity extends AppCompatActivity {
     RadioButton blueradioBut;
 
 
+    // R.java auto generated class
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("R values", ""+R.color.blue);
+        Log.d("R values", ""+R.color.red);
+        Log.d("R values", ""+R.color.green);
+        Log.d("R values", ""+R.string.error1);
+        Log.d("R values", ""+R.layout.activity_main);
+
+
         Log.d("my app","in onCreate Function");
         nameText = findViewById(R.id.nametext);
         yearText = findViewById(R.id.yeartext);
@@ -42,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         redradioBut = findViewById(R.id.red);
         greenradioBut = findViewById(R.id.green);
         blueradioBut = findViewById(R.id.blue);
-
-
         redradioBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
