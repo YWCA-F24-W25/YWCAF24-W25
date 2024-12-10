@@ -2,4 +2,7 @@
     <string name="app_name">Dec9Project</string>
     <string name="myname">Rania Arbash</string>
     <string name="ywca_course">YWCA Course</string>
+    <string name="ios_course">iOS Course</string>
+    <string name="react_native_course">React Native Course</string>
+    <string name="android_course">Android Course</string>
 </resources>

@@ -5,35 +5,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/iosimg"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ios"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <TextView
+        android:id="@+id/iostext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ios_course"
+        android:layout_toRightOf="@id/iosimg"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/reactimg"
+        android:gravity="center"
+        />
+
+    <ImageView
+        android:id="@+id/reactimg"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/first"
+        android:layout_below="@id/iosimg"
+        android:layout_alignParentStart="true"
+        android:layout_above="@id/androidimage"
+        />
+
+
+    <TextView
+        android:id="@+id/reacttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/react_native_course"
+        android:layout_toRightOf="@id/reactimg"
+        android:layout_below="@id/iosimg"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/androidimage"
+        android:gravity="center"
+
+
+
+        />
+
+    <ImageView
+        android:id="@+id/androidimage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/download"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ywca_course"
-        android:layout_toLeftOf="@id/first"
-        android:layout_alignParentStart="true"
-        android:layout_above="@id/second"
-        android:layout_alignParentTop="true"
-
-        />
-    <ImageView
-        android:id="@+id/first"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/first"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        />
-
-    <ImageView
-        android:id="@+id/second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/download"
-        android:layout_below="@id/first"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
+        android:text="@string/android_course"
+        android:layout_toRightOf="@id/androidimage"
+        android:layout_below="@id/reacttext"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
         />
-
 
 </RelativeLayout>
