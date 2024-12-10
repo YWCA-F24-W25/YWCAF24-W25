@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Dec10Project</string>
+    <string name="first_app">First App</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="enter_the_year_of_birth">Enter the year of birth</string>
+    <string name="error1">You should enter both values!!!</string>
+    <string name="error2">You should enter a valid year of birth</string>
+    <string name="student">Student?</string>
+</resources>
