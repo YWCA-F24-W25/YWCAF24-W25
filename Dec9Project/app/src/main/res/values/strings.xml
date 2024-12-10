@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dec9Project</string>
+    <string name="myname">Rania Arbash</string>
+    <string name="ywca_course">YWCA Course</string>
 </resources>
