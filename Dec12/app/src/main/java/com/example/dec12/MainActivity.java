@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     // Context = the application memory with all access to resources
                     Intent tosecond = new Intent(MainActivity.this, SecondActivity.class);
 
+                    tosecond.putExtra("mynumber", 33);
+                    tosecond.putExtra("isColdToday", true);
+                   tosecond.putExtra("newUser",newUser);
                     startActivity(tosecond);
 
                 }else {
