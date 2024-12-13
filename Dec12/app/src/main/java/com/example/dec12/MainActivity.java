@@ -1,6 +1,7 @@
 package com.example.dec12;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     // MVVM
     Button register;
 
+    private ActivityResultLauncher<Intent> myLauncher;
+
     // Incorrect Option
     // ArrayList<User> mylist;
 
@@ -35,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
         passowrdtext = findViewById(R.id.password);
         logIn = findViewById(R.id.logIn);
         register = findViewById(R.id.register);
+
+
+        myLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                Intent data = result.getData();
+                String searchTermInSecondActivity =  data.getStringExtra("searchTerm");
+                Log.d("search term", searchTermInSecondActivity);
+            }
+        });
 
 
         Log.d("list", "The size of the list in OnCreate: " + MyApp.list.size());
@@ -53,14 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     tosecond.putExtra("mynumber", 33);
                     tosecond.putExtra("isColdToday", true);
                    tosecond.putExtra("newUser",newUser);
-                    startActivity(tosecond);
+                   // startActivity(tosecond);
+                    myLauncher.launch(tosecond);
 
                 }else {
 
                     // error
                 }
-
-
             }
         });
 

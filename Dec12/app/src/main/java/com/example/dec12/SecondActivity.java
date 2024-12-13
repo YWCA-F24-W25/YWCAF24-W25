@@ -22,6 +22,8 @@ public class SecondActivity extends AppCompatActivity {
     Button searchbutton;
     EditText searchQuery;
     Button callButton;
+    Button backButton;
+    String searchTerm = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,8 @@ public class SecondActivity extends AppCompatActivity {
       allnames = findViewById(R.id.allNamesText);
       searchbutton = findViewById(R.id.searchbutton);
       searchQuery = findViewById(R.id.search_query);
+        backButton = findViewById(R.id.backButton);
+
 callButton = findViewById(R.id.callbutton);
       String todisplay = "";
 
@@ -49,12 +53,24 @@ callButton = findViewById(R.id.callbutton);
             @Override
             public void onClick(View view) {
                 if (!searchQuery.getText().toString().isEmpty()){
-                    String q = searchQuery.getText().toString();
+                    searchTerm = searchQuery.getText().toString();
                     Intent websearchIntent = new Intent(Intent.ACTION_WEB_SEARCH);
-                    websearchIntent.putExtra(SearchManager.QUERY, q);
+                    websearchIntent.putExtra(SearchManager.QUERY, searchTerm);
                     startActivity(websearchIntent);
 
+
                 }
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent backIntent = new Intent();
+                backIntent.putExtra("searchTerm", searchTerm);
+                setResult(RESULT_OK,backIntent);
+                finish();
             }
         });
 
