@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     EditText passowrdtext;
     Button logIn;
     // MVVM
+    Button register;
 
     // Incorrect Option
     // ArrayList<User> mylist;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         nametext = findViewById(R.id.username);
         passowrdtext = findViewById(R.id.password);
         logIn = findViewById(R.id.logIn);
+        register = findViewById(R.id.register);
+
 
         Log.d("list", "The size of the list in OnCreate: " + MyApp.list.size());
 
@@ -58,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+            }
+        });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent tothird = new Intent(MainActivity.this, ThirdActivity.class);
+                startActivity(tothird);
             }
         });
     }
