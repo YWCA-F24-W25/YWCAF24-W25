@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         Log.d("list", "The size of the list in OnCreate: " + MyApp.list.size());
 
         logIn.setOnClickListener(new View.OnClickListener() {
