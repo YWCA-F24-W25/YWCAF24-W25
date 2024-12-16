@@ -2,4 +2,8 @@
     <string name="app_name">Dec16</string>
     <string name="dark_light">Dark/Light</string>
     <string name="week_2_project">Week 2 Project</string>
+    <string name="scollege">Seneca College</string>
+    <string name="hcollege">Humber College</string>
+    <string name="ccollege">Centennial College</string>
+
 </resources>

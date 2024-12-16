@@ -32,6 +32,16 @@
         app:layout_constraintVertical_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titletext" />
+
+    <ListView
+        android:id="@+id/collegesList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/changeColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/languageLogo" />
+
     <Switch
         android:id="@+id/changeColor"
         android:text="@string/dark_light"
