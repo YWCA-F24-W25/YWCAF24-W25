@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -46,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 R.id.collegenameinrow,
                 collegsInToronto);
         collegesList.setAdapter(adapter);
+        collegesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this,
+                        collegsInToronto.get(i),
+                        Toast.LENGTH_LONG).show();
+
+            }
+        });
 
 
         colorswitch = findViewById(R.id.changeColor);

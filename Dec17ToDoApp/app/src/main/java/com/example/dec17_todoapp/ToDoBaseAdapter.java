@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -19,8 +20,11 @@ public class ToDoBaseAdapter extends BaseAdapter {
     interface SwitchListener {
         void switchChanged(int taskIndex,Boolean value);
     }
-
+    interface DeleteClickListener {
+        void deleteClicked(int taskIndex);
+    }
     SwitchListener switchListener;
+    DeleteClickListener deleteClickListener;
     // todo array list
     // I need the row layout --> context == run-time memory that contians the app resources
     ArrayList<ToDo> list;
@@ -50,12 +54,18 @@ public class ToDoBaseAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         //LayoutInflater takes the layout id and give me the view object for it.
        // LayoutInflater.from(context).
-        View v = LayoutInflater.from(context).
-                inflate(R.layout.row_layout,viewGroup,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.row_layout,viewGroup,false);
 
         TextView taskText = v.findViewById(R.id.tasktextinrow);
         TextView dateText = v.findViewById(R.id.datetextinrow);
         Switch s = v.findViewById(R.id.switchinrow);
+        ImageButton deleteButton = v.findViewById(R.id.deletebutton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteClickListener.deleteClicked(i);
+            }
+        });
 
         s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -64,23 +74,21 @@ public class ToDoBaseAdapter extends BaseAdapter {
                 // notify the main activity that there is an update.
                 switchListener.switchChanged(i, b);
 
-                // this code is doing a local update to the view not to the app list
-//                list.get(i).isUrgent = !list.get(i).isUrgent;
-//                if ( list.get(i).isUrgent )
-//                    v.setBackgroundColor(context.getResources().getColor(R.color.lightRed));
-//                else
-//                    v.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
-//
             }
         });
 
         taskText.setText(list.get(i).task);
         dateText.setText(list.get(i).date);
         s.setChecked(list.get(i).isUrgent);
-       if ( list.get(i).isUrgent )
+       if ( list.get(i).isUrgent ) {
            v.setBackgroundColor(context.getResources().getColor(R.color.lightRed));
-       else
+           deleteButton.setBackgroundColor(context.getResources().getColor(R.color.lightRed));
+       }else {
            v.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
+           deleteButton.setBackgroundColor(context.getResources().getColor(R.color.lightGreen));
+       }
         return v;
     }
+
+
 }
