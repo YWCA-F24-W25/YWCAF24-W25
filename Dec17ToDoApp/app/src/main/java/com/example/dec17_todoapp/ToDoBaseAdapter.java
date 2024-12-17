@@ -73,7 +73,6 @@ public class ToDoBaseAdapter extends BaseAdapter {
                 Log.d("in list adapter", "switch changed");
                 // notify the main activity that there is an update.
                 switchListener.switchChanged(i, b);
-
             }
         });
 
