@@ -40,7 +40,7 @@ public class AddToDo extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (!taskText.getText().toString().isEmpty()){
-                    String taskDate = taskDatePicker.getYear()+"/"+taskDatePicker.getMonth()+"/"+taskDatePicker.getDayOfMonth();
+                    String taskDate = taskDatePicker.getYear()+"/"+(taskDatePicker.getMonth() + 1)+"/"+taskDatePicker.getDayOfMonth();
 
                     ToDo newTodo = new ToDo(taskText.getText().toString(),taskDate,isurgent.isChecked());
                     Intent resultIntent = new Intent();
