@@ -5,10 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +29,8 @@ public class MainActivity
     ToDoBaseAdapter adapter;
     ListView todolist;
     FloatingActionButton addbutton;
+    FloatingActionButton torecyclerButton;
+
     ToDoServiceClass serviceClass;
     private ActivityResultLauncher<Intent> myLauncher;
     SharedPreferences sharedPref;
@@ -34,6 +41,7 @@ public class MainActivity
         serviceClass = ((MyAPP)getApplication()).myservice;
         todolist = findViewById(R.id.tasklist);
         addbutton = findViewById(R.id.addnewtask);
+        torecyclerButton = findViewById(R.id.torecyclerlist);
         sharedPref = this.getSharedPreferences("alltodos",Context.MODE_PRIVATE);
         // MODE_PRIVATE is overwriting the exsisting file
         //MODE_APPEND is continue writing -- only works with wrting to a file
@@ -63,6 +71,15 @@ public class MainActivity
                 myLauncher.launch(addnewtaskIntent);
             }
         });
+
+        torecyclerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this,RecyclerToDoList.class);
+                startActivity(i);
+            }
+        });
+
     }
     @Override
     public void switchChanged(int taskIndex, Boolean value) {
@@ -110,5 +127,29 @@ void updateTheListInStorage(){
         } else {
             ((MyAPP) getApplication()).myservice.todolist = list;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+         super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.mainactivity_menu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+         super.onOptionsItemSelected(item);
+
+        if (item.getItemId() == R.id.add_todo_menu) {
+            Intent addnewtaskIntent = new Intent(MainActivity.this, AddToDo.class);
+            myLauncher.launch(addnewtaskIntent);
+        }else if (item.getItemId() == R.id.torecycler_menu){
+            Intent i = new Intent(MainActivity.this,RecyclerToDoList.class);
+            startActivity(i);
+        }
+
+         return true;
     }
 }
