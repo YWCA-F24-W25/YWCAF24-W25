@@ -20,10 +20,6 @@ class MainActivity : AppCompatActivity() {
     fun myHigherOrderFunction(a: Int, b:Int, op: (Int,Int) -> Int) : Int{
         return op(a,b)
     }
-    fun addFun (n: Int, b:Int) = n + b
-    fun subFun (n: Int, b:Int) = n - b
-    fun timesFun (n: Int, b:Int) = n * b
-    fun divFun (n: Int, b:Int) = n / b
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +39,7 @@ class MainActivity : AppCompatActivity() {
             if ((!num1.text.toString().isEmpty()) && (!num2.text.toString().isEmpty() )){
                 val n1 = num1.text.toString().toInt()
                 val n2 = num2.text.toString().toInt()
-
-                resultText.text = myHigherOrderFunction(n1, n2, ::addFun).toString()
+                resultText.text =myHigherOrderFunction(n1, n2) {n1, n2 -> n1 + n2}.toString()
             }
         }
 
@@ -52,30 +47,24 @@ class MainActivity : AppCompatActivity() {
             if ((!num1.text.toString().isEmpty()) && (!num2.text.toString().isEmpty() )){
                 val n1 = num1.text.toString().toInt()
                 val n2 = num2.text.toString().toInt()
-                resultText.text = myHigherOrderFunction(n1, n2, ::subFun).toString()
+                resultText.text = myHigherOrderFunction(n1, n2){n1, n2 -> n1 - n2}.toString()
             }
         }
+
         timesbut.setOnClickListener{
             if ((!num1.text.toString().isEmpty()) && (!num2.text.toString().isEmpty() )){
                 val n1 = num1.text.toString().toInt()
                 val n2 = num2.text.toString().toInt()
-                resultText.text = myHigherOrderFunction(n1, n2, ::timesFun).toString()
+                resultText.text = myHigherOrderFunction(n1, n2){n1, n2 -> n1 * n2}.toString()
             }
         }
         dividbut.setOnClickListener{
             if ((!num1.text.toString().isEmpty()) && (!num2.text.toString().isEmpty() )){
                 val n1 = num1.text.toString().toInt()
                 val n2 = num2.text.toString().toInt()
-                resultText.text = myHigherOrderFunction(n1, n2, ::divFun).toString()
+                resultText.text = myHigherOrderFunction(n1, n2){n1, n2 -> n1 / n2}.toString()
             }
         }
-
-
-
-
-
-
-
 
         val functionButton = findViewById<Button>(R.id.functionsinKotlin)
 
@@ -84,7 +73,28 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "The sume result of 40 and 50 is $result",Toast.LENGTH_LONG).show()
         }
 
-    val loopButton = findViewById<Button>(R.id.loopsinKotlin)
+        val dataclassButton = findViewById<Button>(R.id.dataclass)
+        dataclassButton.setOnClickListener{
+            val myFirstStudent = Student("mary",123)
+            val mySecondStudent = Student("john",456)
+
+            val allStudent = listOf<Student>(myFirstStudent,mySecondStudent)
+            val allMesseges = allStudent.map{ "Welcome ${it.name} to our class, Your id is ${it.number}" }
+
+            Toast.makeText(this, "${allMesseges[0]}",Toast.LENGTH_LONG).show()
+        }
+
+        val whenButton = findViewById<Button>(R.id.whenButton)
+        whenButton.setOnClickListener {
+            Toast.makeText(this, describe("Hello"),Toast.LENGTH_LONG).show()
+            Toast.makeText(this, describe(1),Toast.LENGTH_LONG).show()
+            Toast.makeText(this, describe(5556666111),Toast.LENGTH_LONG).show()
+            Toast.makeText(this, describe(true),Toast.LENGTH_LONG).show()
+            Toast.makeText(this, describe('t'),Toast.LENGTH_LONG).show()
+
+        }
+
+        val loopButton = findViewById<Button>(R.id.loopsinKotlin)
     loopButton.setOnClickListener {
         val numbers : List<Int> = listOf(2,5,-1,44,21)
         for (num in numbers){
@@ -133,9 +143,18 @@ class MainActivity : AppCompatActivity() {
 
 
 
-       fun sum(a: Int, b: Int) : Int{
-           return  a + b;
-       }
+       fun sum(a: Int, b: Int) : Int = a + b
+
+    fun describe(obj : Any) : String =
+        when (obj){
+            1           -> "One"
+            "Hello"     -> "Hello"
+            is Long     -> "This is Long Number"
+            !is String  -> "Not A String"
+            else        -> "Unknown"
+        }
+
+
 
 
     }

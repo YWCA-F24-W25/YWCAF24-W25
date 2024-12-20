@@ -40,6 +40,18 @@
        android:layout_height="wrap_content"
        android:text="Map Function"
        />
+   <Button
+       android:id="@+id/dataclass"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Data Object"
+       />
+   <Button
+       android:id="@+id/whenButton"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="When Structure"
+       />
 
    <LinearLayout
        android:layout_width="match_parent"
