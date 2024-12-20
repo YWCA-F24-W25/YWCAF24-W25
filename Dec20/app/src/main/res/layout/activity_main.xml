@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+   <Button
+       android:id="@+id/functionsinKotlin"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Function"
+       />
+   <Button
+       android:id="@+id/loopsinKotlin"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Loops"
+       />
+   <Button
+       android:id="@+id/lambdainKotlin"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Lambdas"
+       />
+   <Button
+       android:id="@+id/filterFunctioninKotlin"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Filter Function"
+       />
+
+   <Button
+       android:id="@+id/mapFunctioninKotlin"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Map Function"
+       />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       >
+
+      <EditText
+          android:id="@+id/num1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:hint="Number 1"
+          />
+
+   <EditText
+       android:id="@+id/num2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_weight="1"
+       android:hint="Number 2"
+       />
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+      <Button
+          android:text="+"
+          android:textSize="20sp"
+          android:id="@+id/add"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+
+          />
+      <Button
+          android:text="-"
+          android:textSize="20sp"
+          android:id="@+id/sub"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          />
+      <Button
+          android:textSize="20sp"
+          android:text="*"
+          android:id="@+id/times"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          />
+      <Button
+          android:textSize="20sp"
+          android:text="/"
+          android:id="@+id/divid"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          />
+
+   </LinearLayout>
+<TextView
+    android:id="@+id/result"
+    android:textSize="20sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
+</LinearLayout>
