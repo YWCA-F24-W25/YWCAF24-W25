@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -107,14 +109,23 @@ fun SimpleBox(){
 
 @Composable
 fun SimpleLazyColumn(){
+    var clickedItem = remember { mutableStateOf(-1) }
 
     LazyColumn(modifier = Modifier.fillMaxWidth().
     background(Color.LightGray).padding(8.dp))
     {
         items(20){ index ->
-            Text("Item Number $index ",
-                modifier = Modifier.fillMaxWidth().padding(8.dp).clickable {
-                    Log.d("myapp","clicked item is $index")
+            Text(
+                if (clickedItem.value == index)
+                    "Clicked : Item Number $index "
+                else
+                    "Item Number $index ",
+                modifier = Modifier.fillMaxWidth().padding(8.dp).
+                background(
+                    if (clickedItem.value == index) Color.Cyan else Color.Transparent
+                ).
+                clickable {
+                    clickedItem.value = (index )
                 })
         }
     }
