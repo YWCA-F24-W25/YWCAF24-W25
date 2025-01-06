@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
                 }
     }
 }
-
 @Composable
 fun ExampleLayout(){
     Column(modifier =
