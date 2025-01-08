@@ -23,34 +23,47 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 
+
 @Composable
-fun AppBody(list: MutableList<Contact>,
-            modifier: Modifier = Modifier,
-            addContact: (Contact)-> Unit
-            ) {
+fun AppBody(
+    modifier: Modifier = Modifier
+) {
+    var contacts = remember { mutableStateOf(listOf<Contact>()) }
 
-    Column (modifier.fillMaxSize()){
-        TopUIPart(
-            addNewContact = { name,number ->
-            val newContact = Contact(name,number)
-                //addContact(newContact)
-                list.add(newContact)
+    Column(modifier.fillMaxSize()) {
+        TopUIPart(addNewContact = { name, number ->
+            contacts.value = contacts.value + Contact(name, number)
         })
-        BottomUIPart(list)
-    }
+        LazyColumn(
+            modifier = Modifier.fillMaxHeight().clickable {
+                //   Toast.makeText(context, "Contact Selected ", Toast.LENGTH_LONG).show()
+            }) {
+            items(contacts.value.size) { index ->
+                val currentContact = contacts.value[index]
+                Card(
+                    modifier = Modifier.fillMaxHeight().fillMaxWidth()
+                        .background(Color.LightGray)
+                ) {
+                    Text(currentContact.name)
+                    Text(currentContact.number)
+                }
+            }
+        }
 
+    }
 }
 
 @Composable
-fun TopUIPart(addNewContact : (String,String)->Unit){
+fun TopUIPart(addNewContact: (String, String) -> Unit) {
     var context = LocalContext.current
     var contactName = remember { mutableStateOf("") }
     var contactNumber = remember { mutableStateOf("") }//
 
-    Column (
+    Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         TextField(
             value = contactName.value,
             onValueChange = {
@@ -77,24 +90,5 @@ fun TopUIPart(addNewContact : (String,String)->Unit){
         }) {
             Text("Add To List")
         }
-    }
-}
-
-@Composable
-fun BottomUIPart(contacts :  MutableList<Contact> ){
-    var context = LocalContext.current
-    LazyColumn (
-        modifier = Modifier.fillMaxHeight().clickable {
-            Toast.makeText(context, "Contact Selected ",Toast.LENGTH_LONG).show()
-        }) {
-        items(contacts.size){ index ->
-            val currentContact = contacts[index]
-            Card (modifier = Modifier.fillParentMaxWidth().background(Color.LightGray)){
-                Text(currentContact.name)
-                Text(currentContact.number)
-            }
-
-        }
-
     }
 }
