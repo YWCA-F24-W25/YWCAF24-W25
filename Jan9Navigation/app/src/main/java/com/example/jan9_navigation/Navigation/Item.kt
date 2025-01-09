@@ -1,4 +1,4 @@
-package com.example.week9_navigation.Navigation
+package com.example.jan9_navigation.Navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
