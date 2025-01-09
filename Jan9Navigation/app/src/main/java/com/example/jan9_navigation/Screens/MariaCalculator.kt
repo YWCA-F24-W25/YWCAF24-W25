@@ -32,7 +32,7 @@ import com.example.jan9_navigation.Navigation.NavItem
 
 @Composable
 fun MariaCalculatorScreen() {
-        val historyList = remember { mutableStateListOf<String>() }
+       val historyList = remember { mutableStateListOf<String>() }
         val historyButtonCLicked = remember { mutableStateOf(false) }
         Column(
             modifier = Modifier.fillMaxSize(),

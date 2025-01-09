@@ -1,5 +1,6 @@
 package com.example.jan9_navigation.Screens
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import com.example.jan9_navigation.History
 import com.example.jan9_navigation.Logic.Calculate
 
 @Composable
@@ -146,9 +148,9 @@ import com.example.jan9_navigation.Logic.Calculate
                 }
             }
             Button(onClick = {
-//                var intent = Intent(context, History::class.java)
-//                intent.putStringArrayListExtra("historyList",historyList.value)
-//                context.startActivity(intent)
+                var intent = Intent(context, History::class.java)
+                intent.putStringArrayListExtra("historyList",historyList.value)
+                context.startActivity(intent)
             }) {
                 Text("Click For History")
             }
