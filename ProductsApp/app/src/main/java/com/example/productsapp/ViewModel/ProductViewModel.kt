@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import com.example.productsapp.Model.Product
+import java.io.Serializable
 
 // note - this code works only if the ViewModel has no parameters
 class ProductViewModel() : ViewModel() {
@@ -14,7 +15,7 @@ class ProductViewModel() : ViewModel() {
         addAll(repo.getInitialStaticList())
     }
 
-    fun addNewProduct(p:Product){
+    fun addNewProduct(p: Product){
         repo.addNewProductStaticly(p)
         stateList.add(p)
     }

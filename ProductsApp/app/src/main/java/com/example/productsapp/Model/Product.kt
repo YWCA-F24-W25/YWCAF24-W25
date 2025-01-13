@@ -1,13 +1,15 @@
 package com.example.productsapp.Model
 
+import android.os.Parcel
+import android.os.Parcelable
+import java.io.Serializable
 
 
-class Product(i: Int, s: String, d: Double, i1: Int) {
-    var id: Int = 0
-    var name: String = ""
-    var price: Double = 0.0
-    var quentity : Int = 0
-}
+data class Product(val id: Int,
+                   val name: String,
+                   val price: Double,
+                   val quantity: Int) :  Serializable{}
+
 
 class ProductService {
     var list = ArrayList<Product>()
