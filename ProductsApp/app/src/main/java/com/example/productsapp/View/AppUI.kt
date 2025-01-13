@@ -2,6 +2,7 @@ package com.example.productsapp.View
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,7 +31,10 @@ import com.example.productsapp.Model.Product
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppUI( list: SnapshotStateList<Product>, addNewProductClicked: ()->Unit){
+fun AppUI( list: SnapshotStateList<Product>,
+           addNewProductClicked: ()->Unit,
+           oneProductClicked: (p: Product)->Unit
+           ){
     Scaffold (
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -43,10 +48,14 @@ fun AppUI( list: SnapshotStateList<Product>, addNewProductClicked: ()->Unit){
             }
         }
     ) { innerPadding ->
-        LazyColumn (modifier = Modifier.padding(innerPadding)) {
+        LazyColumn (
+            modifier = Modifier.padding(innerPadding)
+        ) {
             items(count = list.toList().count() ){
                 index: Int ->
-                Column {
+                Column (modifier = Modifier.clickable {
+                    oneProductClicked(list.toList()[index])
+                }) {
                     Row(
                         modifier = Modifier.fillMaxWidth().border(1.dp, Color.Black).padding(10.dp)
                     ) {

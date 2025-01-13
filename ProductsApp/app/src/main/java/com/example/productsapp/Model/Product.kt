@@ -6,9 +6,9 @@ import java.io.Serializable
 
 
 data class Product(val id: Int,
-                   val name: String,
-                   val price: Double,
-                   val quantity: Int) :  Serializable{}
+                   var name: String,
+                   var price: Double,
+                   var quantity: Int) :  Serializable{}
 
 
 class ProductService {
@@ -24,6 +24,13 @@ class ProductService {
     fun addNewProduct(p: Product):ArrayList<Product>{
         list.add(p)
         return list
+    }
+
+
+    fun updateProduct(toeditProduct:Product, newName: String, newPrice: Double, newQuantity: Int){
+        toeditProduct.name = newName
+        toeditProduct.price = newPrice
+        toeditProduct.quantity = newQuantity
     }
 }
 

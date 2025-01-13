@@ -20,6 +20,19 @@ class ProductViewModel() : ViewModel() {
         stateList.add(p)
     }
 
+    fun updateOneProduct(p:Product, nname:String, nprice: Double, nquantity: Int) {
+        // update the list in my model
+        repo.updateExistingProduct(p,nname,nprice,nquantity)
+
+        // update the list for my UI
+
+//       var index =  stateList.toList().indexOf(p)
+//
+//        stateList[index].name = nname
+//        stateList[index].price = nprice
+//        stateList[index].quantity = nquantity
+
+    }
 
 
 

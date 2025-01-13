@@ -16,5 +16,9 @@ class AppRepository :  ProductInterface{
         return staticProductService.addNewProduct(p)
     }
 
+    override fun updateExistingProduct(p: Product, name: String, price: Double, q: Int) {
+        staticProductService.updateProduct(p,name,price,q)
+    }
+
 
 }
