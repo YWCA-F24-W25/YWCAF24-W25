@@ -12,8 +12,9 @@ class ProductViewModel() : ViewModel() {
     var repo = AppRepository() // source of truth
 
     var stateList : SnapshotStateList<Product> = mutableStateListOf<Product>().apply {
-        addAll(repo.getInitialStaticList())
-    }
+            addAll(repo.getInitialStaticList())
+        }
+
 
     fun addNewProduct(p: Product){
         repo.addNewProductStaticly(p)
@@ -25,12 +26,14 @@ class ProductViewModel() : ViewModel() {
         repo.updateExistingProduct(p,nname,nprice,nquantity)
 
         // update the list for my UI
+      var index =  stateList.toList().indexOf(p)
+       p.name = nname
+        p.price = nprice
+        p.quantity = nquantity
+        
+        stateList.set(index, p)
 
-//       var index =  stateList.toList().indexOf(p)
-//
-//        stateList[index].name = nname
-//        stateList[index].price = nprice
-//        stateList[index].quantity = nquantity
+
 
     }
 
