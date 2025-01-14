@@ -45,22 +45,8 @@ class MainActivity : ComponentActivity() {
         ) { result: ActivityResult ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 val data = result.data
-
-                var nn = data?.getStringExtra("newname")
-                var np = data?.getDoubleExtra("newprice",0.0)
-                var nq = data?.getIntExtra("newq",0)
-
-                if (nn != null) {
-                    if (np != null) {
-                        if (nq != null) {
-                            var list = vm.value.stateList.filter { p ->
-                                p.id == selectedProductID
-                            }
-                           var i = vm.value.stateList.indexOf(list[0])
-                            vm.value.updateOneProduct(vm.value.stateList[i],nn,np,nq)
-                        }
-                    }
-                }
+                var updatedP =  data?.getSerializableExtra("updatedProduct") as Product
+                vm.value.updateProduct(updatedP)
             }
         }
         setContent {

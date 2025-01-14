@@ -26,13 +26,13 @@ class EditProductActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                    AddEditProductUI(
                        modifier = Modifier.padding(innerPadding),
-                       onButtonClicked = {name, price, quantity ->
+                       onButtonClicked = {n, p, q ->
                            val resultIntent = Intent()
-
-                           resultIntent.putExtra("newname",name)
-                           resultIntent.putExtra("newprice",price)
-                           resultIntent.putExtra("newq",quantity)
-
+                            toeditProduct.price = p
+                           toeditProduct.name = n
+                           toeditProduct.quantity = q
+                         // toeditProduct.copy(name = n, price = p, quantity = q)
+                        resultIntent.putExtra("updatedProduct",toeditProduct)
                            setResult(RESULT_OK, resultIntent)
                            finish()
                        },

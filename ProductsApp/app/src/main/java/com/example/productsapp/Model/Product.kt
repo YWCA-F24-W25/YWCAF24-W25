@@ -27,10 +27,11 @@ class ProductService {
     }
 
 
-    fun updateProduct(toeditProduct:Product, newName: String, newPrice: Double, newQuantity: Int){
-        toeditProduct.name = newName
-        toeditProduct.price = newPrice
-        toeditProduct.quantity = newQuantity
+    fun updateProduct(toeditProduct:Product){
+        val index = list.indexOfFirst { it.id == toeditProduct.id }
+        if (index != -1) {
+            list[index] = toeditProduct  // Update the task in the UI
+        }
     }
 }
 

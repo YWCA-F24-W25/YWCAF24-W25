@@ -21,24 +21,16 @@ class ProductViewModel() : ViewModel() {
         stateList.add(p)
     }
 
-    fun updateOneProduct(p:Product, nname:String, nprice: Double, nquantity: Int) {
+    fun updateProduct(newProduct:Product) {
         // update the list in my model
-        repo.updateExistingProduct(p,nname,nprice,nquantity)
+        repo.updateExistingProduct(newProduct)
 
-        // update the list for my UI
-      var index =  stateList.toList().indexOf(p)
-       p.name = nname
-        p.price = nprice
-        p.quantity = nquantity
-        
-        stateList.set(index, p)
-
-
+        val index = stateList.indexOfFirst { it.id == newProduct.id }
+        if (index != -1) {
+            stateList[index] = newProduct  // Update the task in the UI
+        }
 
     }
-
-
-
 
 
 }
