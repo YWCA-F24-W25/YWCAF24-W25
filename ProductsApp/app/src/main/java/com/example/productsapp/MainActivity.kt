@@ -21,7 +21,6 @@ class MainActivity : ComponentActivity() {
     private var myLauncher: ActivityResultLauncher<Intent>? = null
     private var editLauncher: ActivityResultLauncher<Intent>? = null
     var selectedProductID = -1
-  //  lateinit var selecedProduct : Product
 
     lateinit var vm : Lazy<ProductViewModel>
     @SuppressLint("SuspiciousIndentation")
@@ -51,6 +50,7 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             ProductsAppTheme {
+
                 vm = viewModels<ProductViewModel>()// connection between UI and VM
                 AppUI(
                     vm.value.stateList,

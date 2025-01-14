@@ -9,12 +9,11 @@ import java.io.Serializable
 // note - this code works only if the ViewModel has no parameters
 class ProductViewModel() : ViewModel() {
 
-    var repo = AppRepository() // source of truth
+    var repo : AppRepository = AppRepository()// source of truth
 
     var stateList : SnapshotStateList<Product> = mutableStateListOf<Product>().apply {
             addAll(repo.getInitialStaticList())
         }
-
 
     fun addNewProduct(p: Product){
         repo.addNewProductStaticly(p)
