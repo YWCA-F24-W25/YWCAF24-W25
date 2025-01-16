@@ -12,7 +12,7 @@ class WeatherAPIService {
 
     suspend fun getWeatherForOneCity(cityName: String) : WeatherObject{
       return  apiService.getWeatherForCity(cityName,
-            "use your own",
+            "071c3ffca10be01d334505630d2c1a9c",
             "metric")
     }
 }

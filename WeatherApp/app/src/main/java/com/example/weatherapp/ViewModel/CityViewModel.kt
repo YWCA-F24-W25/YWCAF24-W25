@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 class CityViewModel() : ViewModel() {
 
     var apiListOfCities by mutableStateOf<List<String>>(emptyList())
-    var appRepo = AppRepository()
-
+    // AppRepository needs no parameters
+    var appRepo : AppRepository = AppRepository()
     fun setList(){
         apiListOfCities = emptyList()
     }

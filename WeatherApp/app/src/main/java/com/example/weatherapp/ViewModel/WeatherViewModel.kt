@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class WeatherViewModel() : ViewModel() {
     var apiWeatherObject by mutableStateOf<WeatherObject?>(null)
 
-    var appRepo = AppRepository()
+    var appRepo : AppRepository = AppRepository()
 
     fun getWeatherForCity(name:String){
         viewModelScope.launch {

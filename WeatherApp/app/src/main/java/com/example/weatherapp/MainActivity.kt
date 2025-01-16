@@ -21,18 +21,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.weatherapp.View.CityTable
 import com.example.weatherapp.View.SearchBarUI
+import com.example.weatherapp.ViewModel.AppRepository
 import com.example.weatherapp.ViewModel.CityViewModel
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
     lateinit var vm : Lazy<CityViewModel>
 
+    // if I need the app context to create the App Repo,
+    // I can't create it in the View Model.
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            // We need the App Repository to be
+            // created first before creating the VM. When we need the Context
+           // var appRepo = AppRepository();
             vm = viewModels<CityViewModel>()
+
             WeatherAppTheme {
                 Scaffold( modifier = Modifier.fillMaxSize()
                     ) {

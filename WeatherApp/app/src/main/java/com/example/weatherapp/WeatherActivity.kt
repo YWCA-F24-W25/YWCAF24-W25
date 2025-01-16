@@ -34,10 +34,13 @@ class WeatherActivity : ComponentActivity() {
                     wvm.value.getWeatherForCity(selectedCity)
                 }
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    if (selectedCity != null) {
                         WeatherUI(
                             modifier = Modifier.padding(innerPadding),
+                            selectedCity,
                             wvm.value.apiWeatherObject
                         )
+                    }
                     }
 
             }
