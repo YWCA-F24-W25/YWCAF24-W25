@@ -12,15 +12,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.Model.WeatherObject
 import com.example.weatherapp.View.WeatherUI
+import com.example.weatherapp.ViewModel.AppRepository
 import com.example.weatherapp.ViewModel.CityViewModel
+import com.example.weatherapp.ViewModel.ViewModelFactory
 import com.example.weatherapp.ViewModel.WeatherViewModel
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
 class WeatherActivity : ComponentActivity() {
 
-    lateinit var wvm : Lazy<WeatherViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,17 +30,20 @@ class WeatherActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
+            var appRepo = AppRepository()
+            var weatherViewModelFactory = ViewModelFactory(appRepo)
+            var wvm = ViewModelProvider(this,weatherViewModelFactory)[WeatherViewModel::class.java]
+
             WeatherAppTheme {
-                wvm = viewModels<WeatherViewModel>()
                 if (selectedCity != null) {
-                    wvm.value.getWeatherForCity(selectedCity)
+                    wvm.getWeatherForCity(selectedCity)
                 }
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     if (selectedCity != null) {
                         WeatherUI(
                             modifier = Modifier.padding(innerPadding),
                             selectedCity,
-                            wvm.value.apiWeatherObject
+                            wvm.apiWeatherObject
                         )
                     }
                     }

@@ -9,11 +9,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.Model.City
 import kotlinx.coroutines.launch
 
-class CityViewModel() : ViewModel() {
+class CityViewModel(var appRepo : AppRepository ) : ViewModel() {
 
     var apiListOfCities by mutableStateOf<List<String>>(emptyList())
+
     // AppRepository needs no parameters
-    var appRepo : AppRepository = AppRepository()
+   // If I can create App Repo in VM.
+    // var appRepo : AppRepository = AppRepository()
+
+
+
     fun setList(){
         apiListOfCities = emptyList()
     }

@@ -1,5 +1,6 @@
 package com.example.weatherapp.View
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.weatherapp.Model.WeatherObject
@@ -34,17 +36,14 @@ fun WeatherUI(modifier: Modifier, cityName: String, wo : WeatherObject?){
                 Text(cityName, fontSize = 40.sp, fontWeight = FontWeight.ExtraBold)
             }else {
                 Text(cityName, fontSize = 30.sp, fontWeight = FontWeight.ExtraBold)
-
             }
-            AsyncImage(
-                ImageRequest.Builder(LocalContext.current)
-                    .data("https://openweathermap.org/img/wn/${ wo.weather.get(0).icon}@2x.png")
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(R.drawable.noimage),
-                contentDescription = "weather icon",
-                modifier = Modifier.fillMaxSize(0.4f).background(Color.Red))
+        //    Image(painter = painterResource(R.drawable.noimage), contentDescription = null)
 
+            Image(
+                modifier = Modifier.fillMaxSize(0.4f),
+                painter = rememberAsyncImagePainter("https://openweathermap.org/img/wn/${ wo.weather.get(0).icon}@2x.png")
+           , contentDescription = "icon"
+            )
             Spacer(Modifier.fillMaxHeight(0.2f))
             Text(wo.weather[0].description, fontSize = 30.sp)
             Spacer(Modifier.fillMaxHeight(0.2f))

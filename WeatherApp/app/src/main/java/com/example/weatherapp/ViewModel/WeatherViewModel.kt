@@ -8,10 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.Model.WeatherObject
 import kotlinx.coroutines.launch
 
-class WeatherViewModel() : ViewModel() {
+class WeatherViewModel(var appRepo : AppRepository ) : ViewModel() {
     var apiWeatherObject by mutableStateOf<WeatherObject?>(null)
 
-    var appRepo : AppRepository = AppRepository()
+    // If I can create App Repo in VM.
+    // var appRepo : AppRepository = AppRepository()
+
+
 
     fun getWeatherForCity(name:String){
         viewModelScope.launch {
