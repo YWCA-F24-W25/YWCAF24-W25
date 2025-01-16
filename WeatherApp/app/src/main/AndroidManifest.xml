@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".WeatherInLocationActivity"
+            android:exported="true"
+            android:label="@string/title_activity_weather_in_location"
+            android:theme="@style/Theme.WeatherApp" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
             android:name=".WeatherActivity"
             android:exported="false"
             android:label="@string/title_activity_weather"
@@ -25,12 +38,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.WeatherApp">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+                   </activity>
     </application>
 
 </manifest>

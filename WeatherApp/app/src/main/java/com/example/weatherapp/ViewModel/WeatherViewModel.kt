@@ -14,8 +14,6 @@ class WeatherViewModel(var appRepo : AppRepository ) : ViewModel() {
     // If I can create App Repo in VM.
     // var appRepo : AppRepository = AppRepository()
 
-
-
     fun getWeatherForCity(name:String){
         viewModelScope.launch {
             val wo = appRepo.getWeatherForOneCity(name)
@@ -24,5 +22,11 @@ class WeatherViewModel(var appRepo : AppRepository ) : ViewModel() {
     }
 
 
+    fun getWeatherForLocation(lat: String, lon: String){
+        viewModelScope.launch {
+            val wo = appRepo.getWeatherForLocation(lat,lon)
+            apiWeatherObject = wo
+        }
+    }
 
 }

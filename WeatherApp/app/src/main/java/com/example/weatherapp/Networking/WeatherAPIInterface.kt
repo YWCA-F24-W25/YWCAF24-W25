@@ -11,4 +11,11 @@ interface WeatherAPIInterface {
                                   @Query("units") units: String
                                   ): WeatherObject
 
+
+    @GET("weather?")
+    suspend fun getWeatherForLocation(@Query("lat") lat: String,
+                                      @Query("lon") lon: String,
+                                  @Query("appid") appid:String,
+                                  @Query("units") units: String
+    ): WeatherObject
 }

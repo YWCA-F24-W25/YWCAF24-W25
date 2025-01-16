@@ -19,4 +19,8 @@ class AppRepository : CityAPIServiceInterface, WeatherInterface {
        return weatherAPIService.getWeatherForOneCity(cityName)
     }
 
+
+    suspend fun getWeatherForLocation(lat: String, lon: String): WeatherObject {
+        return weatherAPIService.getWeatherForLocation(lat,lon)
+    }
 }
