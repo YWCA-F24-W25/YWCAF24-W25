@@ -24,7 +24,7 @@ import com.example.weatherapp.ViewModel.CityViewModel
 import com.example.weatherapp.ViewModel.ViewModelFactory
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 
-class MainActivity : ComponentActivity() {
+class SearchActivity : ComponentActivity() {
    // lateinit var vm : Lazy<CityViewModel>
 
     // if I need the app context to create the App Repo,

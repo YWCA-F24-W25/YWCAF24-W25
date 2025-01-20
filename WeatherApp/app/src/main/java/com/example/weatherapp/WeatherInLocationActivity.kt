@@ -2,8 +2,10 @@ package com.example.weatherapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +13,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -92,11 +99,16 @@ class WeatherInLocationActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopBar() {
+    var cnx = LocalContext.current
     TopAppBar(title = {
         Text("Current location")
     }, actions = {
-        // link to the second activity
-    })
+        IconButton(onClick = {
+            var intent = Intent(cnx, SearchActivity::class.java)
+            cnx.startActivity(intent)
+        }) {
+            Icon(Icons.Default.Search, "")
+        }    })
 }
 
 @SuppressLint("MissingPermission")
@@ -128,7 +140,7 @@ fun LocationUI( modifier: Modifier = Modifier, wvm: WeatherViewModel) {
                 fusedLocationClient.requestLocationUpdates(
                     locationRequest,locationCallBack, context.mainLooper )
         }
-
+    wvm.apiWeatherObject?.weather?.get(0)?.let { Log.d("icon", it.icon) }
     WeatherUI(modifier, "Latitude:  " + (userLocation.value?.latitude ?: 0) +
             "Longitude:  " +  (userLocation.value?.longitude ?: 0),wvm.apiWeatherObject)
 }
