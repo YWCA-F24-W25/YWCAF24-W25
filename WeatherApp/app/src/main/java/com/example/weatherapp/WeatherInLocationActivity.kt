@@ -11,8 +11,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
@@ -30,10 +33,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import com.example.weatherapp.View.WeatherUI
 
 import androidx.lifecycle.ViewModelProvider
+import com.example.weatherapp.Room.CityDatabase
 import com.example.weatherapp.ViewModel.AppRepository
 import com.example.weatherapp.ViewModel.ViewModelFactory
 import com.example.weatherapp.ViewModel.WeatherViewModel
@@ -46,7 +51,6 @@ import com.google.android.gms.maps.model.LatLng
 
 
 class WeatherInLocationActivity : ComponentActivity() {
-
         val locationPermissionRequestLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
@@ -69,6 +73,12 @@ class WeatherInLocationActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        var database = CityDatabase.getDBInstance(this)
+        var cityDao = database.getCityDao()
+        var appRepo = AppRepository(cityDao)
+        var weatherViewModelFactory = ViewModelFactory(appRepo)
+        var wvm = ViewModelProvider(this,weatherViewModelFactory)[WeatherViewModel::class.java]
+
 
         locationPermissionRequestLauncher.launch(
             arrayOf(
@@ -77,15 +87,12 @@ class WeatherInLocationActivity : ComponentActivity() {
             )
         )
             setContent {
-                var appRepo = AppRepository()
-                var weatherViewModelFactory = ViewModelFactory(appRepo)
-                var wvm = ViewModelProvider(this,weatherViewModelFactory)[WeatherViewModel::class.java]
 
 
                 WeatherAppTheme {
                     Scaffold(
                         topBar = { MyTopBar() },
-                        modifier = Modifier.fillMaxSize()
+
                     ) { innerPadding ->
                         LocationUI(
                             modifier = Modifier.padding(innerPadding),wvm
@@ -100,7 +107,9 @@ class WeatherInLocationActivity : ComponentActivity() {
 @Composable
 fun MyTopBar() {
     var cnx = LocalContext.current
-    TopAppBar(title = {
+    TopAppBar(
+
+        title = {
         Text("Current location")
     }, actions = {
         IconButton(onClick = {

@@ -18,15 +18,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".FavoriteCitiesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_favorite_cities"
+            android:theme="@style/Theme.WeatherApp" />
+        <activity
             android:name=".WeatherInLocationActivity"
             android:exported="true"
             android:label="@string/title_activity_weather_in_location"
-            android:theme="@style/Theme.WeatherApp" >
+            android:theme="@style/Theme.WeatherApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".WeatherActivity"
@@ -37,8 +41,7 @@
             android:name=".SearchActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.WeatherApp">
-                   </activity>
+            android:theme="@style/Theme.WeatherApp"></activity>
     </application>
 
 </manifest>

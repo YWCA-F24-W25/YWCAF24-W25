@@ -5,9 +5,11 @@ import com.example.weatherapp.Model.CityAPIServiceInterface
 import com.example.weatherapp.Model.WeatherAPIService
 import com.example.weatherapp.Model.WeatherInterface
 import com.example.weatherapp.Model.WeatherObject
+import com.example.weatherapp.Room.City
+import com.example.weatherapp.Room.CityDAO
 
-class AppRepository : CityAPIServiceInterface, WeatherInterface {
-// source of truth
+class AppRepository (private val cityDao: CityDAO) : CityAPIServiceInterface, WeatherInterface {
+    // source of truth
     var cityApiService =  CityAPIService()
     var weatherAPIService = WeatherAPIService()
 
@@ -19,8 +21,28 @@ class AppRepository : CityAPIServiceInterface, WeatherInterface {
        return weatherAPIService.getWeatherForOneCity(cityName)
     }
 
-
     suspend fun getWeatherForLocation(lat: String, lon: String): WeatherObject {
         return weatherAPIService.getWeatherForLocation(lat,lon)
     }
+
+    suspend fun insertNewCityInDB(c: City){
+        cityDao.addNewCityToDB(c)
+    }
+
+    suspend fun updateOneCity(c: City){
+        cityDao.updateOneCity(c)
+    }
+
+    suspend fun deleteCity(c: City){
+        cityDao.deleteOneCityFromDB(c)
+    }
+
+    suspend fun searchForCity(t: String):List<City>{
+      return cityDao.getCitiesEqualsTo(t)
+    }
+
+    suspend fun getAllCities():List<City>{
+        return cityDao.getAllCitiesFromDB()
+    }
+
 }

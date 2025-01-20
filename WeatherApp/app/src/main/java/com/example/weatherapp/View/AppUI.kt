@@ -21,13 +21,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.motionEventSpy
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarUI(searchForCity: (String)->Unit){
+fun SearchBarUI(hint: String ,searchForCity: (String)->Unit){
 
   var searchText by remember { mutableStateOf("") }
     var activeStateOfSearchBar by remember { mutableStateOf(true) }
@@ -50,14 +51,16 @@ fun SearchBarUI(searchForCity: (String)->Unit){
             onActiveChange = {
                 activeStateOfSearchBar = it
             },
-            placeholder = { Text("Search for cities with 3 chars") },
+            placeholder = { Text("$hint") },
             trailingIcon = { Icons.Default.Search}
         ){}
     }
 
 
 @Composable
-fun CityTable(list: List<String>, onOneCitySelected : (String) -> Unit){
+fun CityTable(list: List<String>,
+              onOneCitySelected : (String) -> Unit){
+
 
     Log.d("list",list.size.toString())
     LazyColumn {
@@ -66,6 +69,7 @@ fun CityTable(list: List<String>, onOneCitySelected : (String) -> Unit){
             index ->
             Row (modifier = Modifier.fillMaxWidth().padding(5.dp).clickable {
                 onOneCitySelected(list[index])
+
             }) {
                 Text(list[index], fontSize = 18.sp )
             }
