@@ -141,6 +141,6 @@ fun LocationUI( modifier: Modifier = Modifier, wvm: WeatherViewModel) {
                     locationRequest,locationCallBack, context.mainLooper )
         }
     wvm.apiWeatherObject?.weather?.get(0)?.let { Log.d("icon", it.icon) }
-    WeatherUI(modifier, "Latitude:  " + (userLocation.value?.latitude ?: 0) +
-            "Longitude:  " +  (userLocation.value?.longitude ?: 0),wvm.apiWeatherObject)
+    WeatherUI(modifier, "Lat:  " + (userLocation.value?.latitude ?: 0) +
+            "Lon:  " +  (userLocation.value?.longitude ?: 0),wvm.apiWeatherObject)
 }

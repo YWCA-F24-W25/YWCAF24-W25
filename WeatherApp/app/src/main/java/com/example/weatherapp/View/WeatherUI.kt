@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 
 import com.example.weatherapp.Model.WeatherObject
@@ -30,15 +31,21 @@ fun WeatherUI(modifier: Modifier, cityName: String, wo : WeatherObject?) {
             } else {
                 Text(cityName, fontSize = 30.sp, fontWeight = FontWeight.ExtraBold)
             }
-            Image(
+//            Image(
+//                modifier = Modifier.fillMaxSize(0.4f),
+//                painter = rememberAsyncImagePainter(
+//                    "https://openweathermap.org/img/wn/${
+//                        wo.weather.get(
+//                            0
+//                        ).icon
+//                    }@4x.png"
+//                ), contentDescription = "icon"
+//            )
+            var icon = wo.weather.get(0).icon
+            AsyncImage(
                 modifier = Modifier.fillMaxSize(0.4f),
-                painter = rememberAsyncImagePainter(
-                    "https://openweathermap.org/img/wn/${
-                        wo.weather.get(
-                            0
-                        ).icon
-                    }@4x.png"
-                ), contentDescription = "icon"
+                model = "https://openweathermap.org/img/wn/${icon}@4x.png",
+                contentDescription = null,
             )
             Spacer(Modifier.fillMaxHeight(0.2f))
             Text(wo.weather[0].description, fontSize = 30.sp)
