@@ -38,23 +38,19 @@ class FavoriteCitiesActivity : ComponentActivity() {
         var cityViewModelFactory = ViewModelFactory(appRepo)
         var vm = ViewModelProvider(this,cityViewModelFactory)[CityViewModel::class.java]
 
-
         setContent {
             WeatherAppTheme {
-
                     Scaffold(
                     modifier = Modifier.fillMaxSize()
                 )
                 { innerPadding ->
-
-
-
                     var dblist: List<City>
                     var dbStringList = remember { mutableStateListOf<String>() }
                     var isInSearch = remember { false }
                     var searchQuery = remember { "" }
                     if (!isInSearch) {
                         dblist = vm.getAllCities()
+
                         for (city in dblist) {
                             dbStringList += city.name
                         }
@@ -65,8 +61,6 @@ class FavoriteCitiesActivity : ComponentActivity() {
                             dbStringList += city.name
                         }
                     }
-
-
      Column(modifier = Modifier.padding(innerPadding)) {
                             Row(
                                 modifier = Modifier.fillMaxHeight(0.15f)
@@ -76,11 +70,8 @@ class FavoriteCitiesActivity : ComponentActivity() {
                                     searchQuery = cityToSearch
                                 }
                             }
-
                             CityTable(dbStringList) {}
-
                         }
-
                     }
                 }
             }

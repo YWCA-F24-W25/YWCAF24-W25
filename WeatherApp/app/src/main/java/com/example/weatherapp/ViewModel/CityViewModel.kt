@@ -16,6 +16,8 @@ class CityViewModel(var appRepo : AppRepository) : ViewModel() {
     var apiListOfCities by mutableStateOf<List<String>>(emptyList())
     var databaseListOfFavCities by mutableStateOf<List<City>>(emptyList())
 
+    var found by mutableStateOf<Boolean>(false)
+
     // AppRepository needs no parameters
    // If I can create App Repo in VM.
     // var appRepo : AppRepository = AppRepository()
@@ -40,10 +42,10 @@ class CityViewModel(var appRepo : AppRepository) : ViewModel() {
 
     fun insertNewCityInDB(c: City) {
         viewModelScope.launch {
-            appRepo.insertNewCityInDB(c)
+            found = appRepo.insertNewCityInDB(c)// late true
             databaseListOfFavCities = databaseListOfFavCities + c
-
         }
+        //return  found// false
     }
 
     fun updateOneCity(c: City){

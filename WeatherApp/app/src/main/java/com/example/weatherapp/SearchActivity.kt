@@ -17,14 +17,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,8 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.Room.City
 import com.example.weatherapp.Room.CityDatabase
+import com.example.weatherapp.View.AlertComposable
 import com.example.weatherapp.View.CityTable
-import com.example.weatherapp.View.DBAlert
 import com.example.weatherapp.View.SearchBarUI
 import com.example.weatherapp.ViewModel.AppRepository
 import com.example.weatherapp.ViewModel.CityViewModel
@@ -56,6 +60,8 @@ class SearchActivity : ComponentActivity() {
         var appRepo = AppRepository(cityDao)
         var cityViewModelFactory = ViewModelFactory(appRepo)
         var vm = ViewModelProvider(this,cityViewModelFactory)[CityViewModel::class.java]
+
+
 
         setContent {
             // This default initalizer only works if the ViewModel has no parameter
@@ -79,52 +85,71 @@ class SearchActivity : ComponentActivity() {
 @Composable
 fun APPBody(vm: CityViewModel, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    var selectedCity = remember { mutableStateOf("") }
+    var showAlert = remember { mutableStateOf(false) }
    Column (modifier = Modifier.fillMaxSize()) {
        Row (modifier = Modifier.
-       fillMaxHeight(0.15f).
-       fillMaxWidth(0.8f),
-           verticalAlignment = Alignment.CenterVertically
+       fillMaxHeight(0.15f),
+           verticalAlignment = Alignment.CenterVertically,
+           horizontalArrangement = Arrangement.SpaceBetween
        ) {
+           IconButton(onClick = {
+               var intent = Intent(context,FavoriteCitiesActivity::class.java)
+               context.startActivity(intent)
+           }) {
+               Icon(Icons.Default.Favorite, contentDescription = "tofav",modifier = Modifier.fillMaxSize(0.4f))
+           }
            SearchBarUI(
                hint ="Search for cities with 3 chars",
                searchForCity = {
-               if (it.isEmpty()){
-                   vm.setList()
-               }else {
-                   vm.getAllCitiesFromAPI(it)
-               }
+                   if (it.isEmpty()){
+                       vm.setList()
+                   }else {
+                       vm.getAllCitiesFromAPI(it)
+                   }
                })
-           Spacer(modifier = Modifier.width(40.dp))
-           Button(onClick = {
-               var intent = Intent(context,FavoriteCitiesActivity::class.java)
-               context.startActivity(intent)
-           },modifier = Modifier.background(Color.Red)) {
-               Icon(Icons.Default.Favorite, contentDescription = "tofav",modifier = Modifier.fillMaxSize(0.2f))
-           }
        }
       Row{
-          CityTable(vm.apiListOfCities,  onOneCitySelected = { city ->
-              var id = Math.random().toInt()
-                  vm.insertNewCityInDB(City(id, city))
-                  var intent = Intent(context,WeatherActivity::class.java)
-                  intent.putExtra("city",city)
-                  context.startActivity(intent)
-
-
-//              DBAlert(city, onSave = {
-//                  var id = Math.random().toInt()
-//                  vm.insertNewCityInDB(City(id, city))
-//                  var intent = Intent(context,WeatherActivity::class.java)
-//                  intent.putExtra("city",city)
-//                  context.startActivity(intent)
-//
-//              }, onNotSave = {
-//                  var intent = Intent(context,WeatherActivity::class.java)
-//                   intent.putExtra("city",city)
-//                 context.startActivity(intent)
-//              } )
+          CityTable(vm.apiListOfCities,
+              onOneCitySelected = { city ->
+                  showAlert.value = true
+                  selectedCity.value = city
 
           })
+
+        if (showAlert.value){
+            AlertComposable(selectedCity.value,
+                message = "Do You Want To Save ${selectedCity.value} to DB?",
+                okButton = "Yes, Save",
+                noButton = "NO, Don't Save"
+                , onSave = {
+                  var id = Math.random().toInt()
+                  vm.insertNewCityInDB(City(id, selectedCity.value))
+                  var intent = Intent(context,WeatherActivity::class.java)
+                  intent.putExtra("city",selectedCity.value)
+                  context.startActivity(intent)
+                showAlert.value = false
+              }, onNotSave = {
+                  var intent = Intent(context,WeatherActivity::class.java)
+                   intent.putExtra("city",selectedCity.value)
+                 context.startActivity(intent)
+                showAlert.value = false
+              } )
+        }
+
+//          if (isInDB.value == true){
+//              AlertComposable(city = selectedCity.value,
+//                  message = "This City Is Already in your Fav List!!!",
+//                  okButton = "OK",
+//                  noButton = "", onSave = {
+//                      isInDB.value = false
+//                  }, onNotSave = {
+//                      isInDB.value = false
+//                  })
+//          }
+
+
+
       }
 
    }

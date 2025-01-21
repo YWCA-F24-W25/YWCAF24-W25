@@ -8,7 +8,10 @@ import com.example.weatherapp.Model.WeatherObject
 import com.example.weatherapp.Room.City
 import com.example.weatherapp.Room.CityDAO
 
-class AppRepository (private val cityDao: CityDAO) : CityAPIServiceInterface, WeatherInterface {
+class AppRepository (private val cityDao: CityDAO) :
+    CityAPIServiceInterface,
+    WeatherInterface {
+
     // source of truth
     var cityApiService =  CityAPIService()
     var weatherAPIService = WeatherAPIService()
@@ -25,8 +28,15 @@ class AppRepository (private val cityDao: CityDAO) : CityAPIServiceInterface, We
         return weatherAPIService.getWeatherForLocation(lat,lon)
     }
 
-    suspend fun insertNewCityInDB(c: City){
-        cityDao.addNewCityToDB(c)
+    suspend fun insertNewCityInDB(c: City):Boolean{
+        var isAlreadyInDB = false
+        var list = searchForCity(c.name)// check for same city in db
+        if (list.size == 0){
+            cityDao.addNewCityToDB(c)
+        }else {
+            isAlreadyInDB = true
+        }
+        return isAlreadyInDB
     }
 
     suspend fun updateOneCity(c: City){

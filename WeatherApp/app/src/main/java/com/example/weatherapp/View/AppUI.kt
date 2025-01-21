@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBar
@@ -33,7 +34,7 @@ fun SearchBarUI(hint: String ,searchForCity: (String)->Unit){
   var searchText by remember { mutableStateOf("") }
     var activeStateOfSearchBar by remember { mutableStateOf(true) }
         SearchBar(
-            modifier = Modifier.fillMaxWidth().padding(5.dp),
+            modifier = Modifier.padding(5.dp),
             query = searchText,
             onQueryChange = {
                 searchText = it
@@ -51,8 +52,7 @@ fun SearchBarUI(hint: String ,searchForCity: (String)->Unit){
             onActiveChange = {
                 activeStateOfSearchBar = it
             },
-            placeholder = { Text("$hint") },
-            trailingIcon = { Icons.Default.Search}
+            placeholder = { Text("$hint") }
         ){}
     }
 
@@ -60,8 +60,6 @@ fun SearchBarUI(hint: String ,searchForCity: (String)->Unit){
 @Composable
 fun CityTable(list: List<String>,
               onOneCitySelected : (String) -> Unit){
-
-
     Log.d("list",list.size.toString())
     LazyColumn {
         items(count = list.size)
