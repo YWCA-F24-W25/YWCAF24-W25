@@ -29,12 +29,13 @@ interface CityDAO {
     @Query("select * from City")
     fun getAllCitiesFromDB() : Flow<List<City>>
 
-
-
-
-
     // select * from City where cityName == "Toronto"
     @Query("select * from City where city_name LIKE '%' || :text || '%'")
     suspend fun getCitiesEqualsTo(text: String) : List<City>
+
+    // select * from City where cityName == "Toronto"
+    @Query("select * from City where city_name LIKE '%' || :text || '%'")
+    fun secondFunctoToGetCitiesEqualsTo(text: String) : Flow<List<City>>
+
 
 }

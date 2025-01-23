@@ -49,12 +49,15 @@ class AppRepository (private val cityDao: CityDAO) :
     suspend fun deleteCity(c: City){
         cityDao.deleteOneCityFromDB(c)
     }
-    fun searchForCity(t: String):Flow<List<City>>{
-      return  cityDao.getAllCitiesFromDB().map { lists ->
-          lists.filter {
-              city -> city.name.equals(t)
-          }
-      }
+
+    fun searchForCity(t: String): Flow<List<City>>{
+       return cityDao.secondFunctoToGetCitiesEqualsTo(t)
+
+//      return  cityDao.getAllCitiesFromDB().map { lists ->
+//          lists.filter {
+//              city -> city.name.equals(t)
+//          }
+//      }
     }
     suspend fun getSimilarCities(t: String):List<City>{
         return cityDao.getCitiesEqualsTo(t)
