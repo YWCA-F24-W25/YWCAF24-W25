@@ -1,44 +1,37 @@
 package com.example.carownerapp.ViewModel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.carownerapp.Room.Car
 import com.example.carownerapp.Room.Owner
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class DBViewModel(val appRepo: AppRepository) : ViewModel() {
 
-    var dbOwnerList = mutableStateOf<List<Owner>>(emptyList())
-    var dbCarsList = mutableStateOf<List<Car>>(emptyList())
-
+//    var dbOwnerList = mutableStateOf<List<Owner>>(emptyList())
+//    var dbCarsList = mutableStateOf<List<Car>>(emptyList())
+//
 
     fun addOneOwnerToDB(o:Owner){
         viewModelScope.launch {
             appRepo.addNewOwner(o)
         }
     }
-    fun getAllOwners(): List<Owner>{
-        viewModelScope.launch {
-            var list = appRepo.getAllOwner()
-           dbOwnerList.value = list
-        }
-        return dbOwnerList.value
+    fun getAllOwners(): Flow<List<Owner>> {
+        return appRepo.getAllOwner()
     }
 
-    fun addCarToOwner(c:Car){
-        viewModelScope.launch {
-            appRepo.addCarToOwner(c)
-        }
+
+
+    fun searchForOwner(name:String): Flow<List<Owner>>{
+        return appRepo.searchForOwner(name)
     }
 
-    fun deleteOneCar(c:Car){
-        viewModelScope.launch {
-            appRepo.deleteOneCar(c)
-        }
-    }
+
 
     fun deleteOneOwner(o:Owner){
         viewModelScope.launch {
@@ -46,22 +39,20 @@ class DBViewModel(val appRepo: AppRepository) : ViewModel() {
         }
     }
 
-
-    fun getAllCars() : List<Car>{
-        viewModelScope.launch {
-            dbCarsList.value =  appRepo.getAllCars()
-        }
-        return dbCarsList.value
+    fun getAllCars() : Flow<List<Car>>{
+           return  appRepo.getAllCars()
     }
 
-    fun getAllCarsForOwner(o:Owner): List<Car>{
 
-        viewModelScope.launch {
-            var cars  = appRepo.getAllCarsForOwner(o)
-            dbCarsList.value = cars
-        }
-        return dbCarsList.value
+    fun getAllCarsForOwner(oID: Int): Flow<List<Car>> {
+        return appRepo.getAllCarsForOwner(oID)
     }
+    fun deleteOneCar(c:Car){
+        viewModelScope.launch {
+            appRepo.deleteOneCar(c)
+        }
+    }
+
 
 
 
