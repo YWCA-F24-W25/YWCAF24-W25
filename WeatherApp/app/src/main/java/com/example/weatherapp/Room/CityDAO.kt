@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -26,7 +27,7 @@ interface CityDAO {
 
     // select * from City === get all cities from database
     @Query("select * from City")
-    suspend fun getAllCitiesFromDB() : List<City>
+    fun getAllCitiesFromDB() : Flow<List<City>>
 
 
 

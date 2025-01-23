@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.Room.City
 import com.example.weatherapp.Room.CityDatabase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class CityViewModel(var appRepo : AppRepository) : ViewModel() {
@@ -51,31 +52,23 @@ class CityViewModel(var appRepo : AppRepository) : ViewModel() {
     fun updateOneCity(c: City){
         viewModelScope.launch {
             appRepo.updateOneCity(c)
-            databaseListOfFavCities = getAllCities()
+
     }
     }
 
     fun deleteCity(c: City) {
         viewModelScope.launch {
             appRepo.deleteCity(c)
-            databaseListOfFavCities = getAllCities()
+          //  databaseListOfFavCities = getAllCities()
         }
     }
 
-    fun searchForCity(t: String):List<City> {
-        viewModelScope.launch {
-           var results =  appRepo.searchForCity(t)
-            databaseListOfFavCities = results
-        }
-        return databaseListOfFavCities
+    fun searchForCity(t: String):Flow<List<City>> {
+           return  appRepo.searchForCity(t)
     }
 
-    fun getAllCities():List<City> {
-        viewModelScope.launch {
-          var result =  appRepo.getAllCities()
-            databaseListOfFavCities = result
-        }
-      return  databaseListOfFavCities
+    fun getAllCities(): Flow<List<City>> {
+         return  appRepo.getAllCities()
     }
 
 

@@ -110,12 +110,13 @@ fun APPBody(vm: CityViewModel, modifier: Modifier = Modifier) {
                })
        }
       Row{
-          CityTable(vm.apiListOfCities,
-              onOneCitySelected = { city ->
-                  showAlert.value = true
-                  selectedCity.value = city
-
-          })
+          // Note : this CityTable get list of Cites not list of String
+//          CityTable(vm.apiListOfCities,
+//              onOneCitySelected = { city ->
+//                  showAlert.value = true
+//                  selectedCity.value = city
+//
+//          })
 
         if (showAlert.value){
             AlertComposable(selectedCity.value,

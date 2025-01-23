@@ -7,6 +7,8 @@ import com.example.weatherapp.Model.WeatherInterface
 import com.example.weatherapp.Model.WeatherObject
 import com.example.weatherapp.Room.City
 import com.example.weatherapp.Room.CityDAO
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class AppRepository (private val cityDao: CityDAO) :
     CityAPIServiceInterface,
@@ -32,7 +34,7 @@ class AppRepository (private val cityDao: CityDAO) :
 
     suspend fun insertNewCityInDB(c: City):Boolean{
         var isAlreadyInDB = false
-        var list = searchForCity(c.name)// check for same city in db
+        var list = getSimilarCities(c.name)// check for same city in db
         if (list.size == 0){
             cityDao.addNewCityToDB(c)
         }else {
@@ -44,16 +46,21 @@ class AppRepository (private val cityDao: CityDAO) :
     suspend fun updateOneCity(c: City){
         cityDao.updateOneCity(c)
     }
-
     suspend fun deleteCity(c: City){
         cityDao.deleteOneCityFromDB(c)
     }
-
-    suspend fun searchForCity(t: String):List<City>{
-      return cityDao.getCitiesEqualsTo(t)
+    fun searchForCity(t: String):Flow<List<City>>{
+      return  cityDao.getAllCitiesFromDB().map { lists ->
+          lists.filter {
+              city -> city.name.equals(t)
+          }
+      }
+    }
+    suspend fun getSimilarCities(t: String):List<City>{
+        return cityDao.getCitiesEqualsTo(t)
     }
 
-    suspend fun getAllCities():List<City>{
+    fun getAllCities(): Flow<List<City>> {
         return cityDao.getAllCitiesFromDB()
     }
 

@@ -25,6 +25,7 @@ import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.weatherapp.Room.City
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,7 @@ fun SearchBarUI(hint: String ,searchForCity: (String)->Unit){
 
 
 @Composable
-fun CityTable(list: List<String>,
+fun CityTable(list: List<City>,
               onOneCitySelected : (String) -> Unit){
     Log.d("list",list.size.toString())
     LazyColumn {
@@ -66,10 +67,10 @@ fun CityTable(list: List<String>,
         {
             index ->
             Row (modifier = Modifier.fillMaxWidth().padding(5.dp).clickable {
-                onOneCitySelected(list[index])
+                onOneCitySelected(list[index].name)
 
             }) {
-                Text(list[index], fontSize = 18.sp )
+                Text(list[index].name, fontSize = 18.sp )
             }
 
         }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -44,24 +45,15 @@ class FavoriteCitiesActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 )
                 { innerPadding ->
-                    var dblist: List<City>
-                    var dbStringList = remember { mutableStateListOf<String>() }
-                    var isInSearch = remember { false }
+                        var isInSearch = remember { false }
                     var searchQuery = remember { "" }
-                    if (!isInSearch) {
-                        dblist = vm.getAllCities()
 
-                        for (city in dblist) {
-                            dbStringList += city.name
-                        }
-                    } else {
-                        dblist = vm.searchForCity(searchQuery)
-                        dbStringList.removeAll(dbStringList)
-                        for (city in dblist) {
-                            dbStringList += city.name
-                        }
-                    }
      Column(modifier = Modifier.padding(innerPadding)) {
+         var  dblist = if (!isInSearch) {
+             vm.getAllCities().collectAsState(initial = emptyList()).value
+         }else {
+             vm.searchForCity(searchQuery).collectAsState(initial = emptyList()).value
+         }
                             Row(
                                 modifier = Modifier.fillMaxHeight(0.15f)
                             ) {
@@ -70,7 +62,7 @@ class FavoriteCitiesActivity : ComponentActivity() {
                                     searchQuery = cityToSearch
                                 }
                             }
-                            CityTable(dbStringList) {}
+                            CityTable(dblist) {}
                         }
                     }
                 }
