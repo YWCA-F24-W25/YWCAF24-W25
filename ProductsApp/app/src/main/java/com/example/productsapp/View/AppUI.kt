@@ -1,6 +1,8 @@
 package com.example.productsapp.View
 
 import android.annotation.SuppressLint
+import android.widget.ImageButton
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -34,7 +38,8 @@ import com.example.productsapp.ViewModel.ProductViewModel
 @Composable
 fun AppUI( list: List<Product>,
            addNewProductClicked: ()->Unit,
-           oneProductClicked: (p: Product)->Unit
+           oneProductClicked: (p: Product)->Unit,
+           oneProductToDelete: (p:Product)->Unit
            ){
 
     Scaffold (
@@ -61,19 +66,26 @@ fun AppUI( list: List<Product>,
                     Row(
                         modifier = Modifier.fillMaxWidth().border(1.dp, Color.Black).padding(10.dp)
                     ) {
-                        Column(modifier = Modifier.fillMaxWidth(0.7f)) {
+                        Column(modifier = Modifier.fillMaxWidth(0.5f)) {
                             Text(fontSize = 20.sp, text = "Product: " + list[index].name)
-                            Spacer(Modifier.height(10.dp))
                             Text(
                                 fontSize = 20.sp,
                                 text = "Price: " + list[index].price.toString()
                             )
                         }
-                        Column {
+                        Column (modifier = Modifier.fillMaxWidth(0.4f)) {
                             Text(
                                 fontSize = 20.sp,
                                 text = "Quantity: " + list[index].quantity.toString()
                             )
+                        }
+                        Spacer(modifier = Modifier.fillMaxWidth(0.2f))
+                        Column () {
+                            Button(onClick = {
+                                oneProductToDelete(list[index])
+                            }) {
+                                Icon(Icons.Default.Delete, contentDescription = "Delete", modifier = Modifier.background(Color.Gray))
+                            }
                         }
                     }
                     Spacer(Modifier.height(10.dp))

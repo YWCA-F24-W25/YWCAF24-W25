@@ -16,7 +16,6 @@ import java.io.Serializable
 class ProductViewModel() : ViewModel() {
 
     var repo : AppRepository = AppRepository()// source of truth
-
     var stateList by mutableStateOf<List<Product>>(emptyList())
 
     fun getAllProductsFromDB():List<Product>{
@@ -26,4 +25,38 @@ class ProductViewModel() : ViewModel() {
         return stateList
     }
 
+    fun filterProducts(p: Double):List<Product>{
+        viewModelScope.launch{
+            stateList = repo.searchForProductsCheaperThanValueFromCloudDatabase(p)
+        }
+        return stateList
+    }
+
+    fun addNewProductToDB(name: String, price: Double, q: Int): Boolean{
+        var done = false
+        viewModelScope.launch{
+            done = repo.addNewDocumentToCloudDatabase(name,price,q)
+            stateList = repo.getAllProductsFromCloudDatabase()
+        }
+        return done
+    }
+
+
+    fun updateOneDocInDB(docID: String,name: String, price: Double, q: Int): Boolean{
+        var done = false
+        viewModelScope.launch{
+            done = repo.updateDocumentInCloudDatabase(docID,name,price,q)
+            stateList = repo.getAllProductsFromCloudDatabase()
+        }
+        return done
+    }
+
+    fun deleteOneDocument(docID: String): Boolean{
+        var done = false
+        viewModelScope.launch{
+            done = repo.deleteOneDocumentFromCloudDatabase(docID)
+            stateList = repo.getAllProductsFromCloudDatabase()
+        }
+        return done
+    }
 }

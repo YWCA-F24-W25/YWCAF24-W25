@@ -23,10 +23,10 @@ class AddNewProductActivity : ComponentActivity() {
                     AddEditProductUI(
                         modifier = Modifier.padding(innerPadding),
                         onButtonClicked = {name, price, quantity ->
-                            // new product is ready
-                        //    var newP = Product(Math.random().toInt(), name,price,quantity)
                             val resultIntent = Intent()
-                          //  resultIntent.putExtra("newProduct", newP)
+                            resultIntent.putExtra("name",name)
+                            resultIntent.putExtra("price",price)
+                            resultIntent.putExtra("quantity",quantity)
                             setResult(RESULT_OK, resultIntent)
                             finish()
                         },

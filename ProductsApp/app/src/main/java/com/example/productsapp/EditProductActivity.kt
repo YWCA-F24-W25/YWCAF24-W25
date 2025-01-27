@@ -28,11 +28,9 @@ class EditProductActivity : ComponentActivity() {
                        modifier = Modifier.padding(innerPadding),
                        onButtonClicked = {n, p, q ->
                            val resultIntent = Intent()
-                            toeditProduct.price = p
-                           toeditProduct.name = n
-                           toeditProduct.quantity = q
-                         // toeditProduct.copy(name = n, price = p, quantity = q)
-                        resultIntent.putExtra("updatedProduct",toeditProduct)
+                           resultIntent.putExtra("name",n)
+                           resultIntent.putExtra("price",p)
+                           resultIntent.putExtra("quantity",q)
                            setResult(RESULT_OK, resultIntent)
                            finish()
                        },

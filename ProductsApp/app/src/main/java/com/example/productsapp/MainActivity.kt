@@ -11,8 +11,14 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import com.example.productsapp.Model.Product
 import com.example.productsapp.View.AppUI
+import com.example.productsapp.View.SearchBarUI
 import com.example.productsapp.ViewModel.ProductViewModel
 import com.example.productsapp.ui.theme.ProductsAppTheme
 import com.google.firebase.Firebase
@@ -23,24 +29,35 @@ class MainActivity : ComponentActivity() {
 // MVVM
     private var myLauncher: ActivityResultLauncher<Intent>? = null
     private var editLauncher: ActivityResultLauncher<Intent>? = null
-    var selectedProductID = -1
+    var selectedProductDocID = ""
 
     lateinit var vm : Lazy<ProductViewModel>
 
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "UnrememberedMutableState")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        var isInSearch by mutableStateOf(false)
 
         myLauncher = registerForActivityResult<Intent, ActivityResult>(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 val data = result.data
-                var newProduct = data?.getSerializableExtra("newProduct") as Product
-                if (newProduct != null) {
-           //         vm.value.addNewProduct(newProduct)
+
+                var newProductName = data?.getStringExtra("name")
+                var newProductPrice = data?.getDoubleExtra("price",0.0)
+                var newProductQuantity = data?.getIntExtra("quantity",0)
+
+                if (newProductName != null) {
+                    if (!newProductName.isEmpty()) {
+                        if (newProductPrice != null) {
+                            if (newProductQuantity != null) {
+                               vm.value.addNewProductToDB(newProductName,newProductPrice,newProductQuantity)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -49,28 +66,55 @@ class MainActivity : ComponentActivity() {
         ) { result: ActivityResult ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 val data = result.data
-                var updatedP =  data?.getSerializableExtra("updatedProduct") as Product
-              //  vm.value.updateProduct(updatedP)
+                var newProductName = data?.getStringExtra("name")
+                var newProductPrice = data?.getDoubleExtra("price",0.0)
+                var newProductQuantity = data?.getIntExtra("quantity",0)
+                if (newProductName != null) {
+                    if (newProductPrice != null) {
+                        if (newProductQuantity != null) {
+                            vm.value.updateOneDocInDB(
+                                selectedProductDocID,
+                                newProductName,
+                                newProductPrice,
+                                newProductQuantity)
+                        }
+                    }
+                }
             }
         }
         setContent {
             ProductsAppTheme {
-                vm = viewModels<ProductViewModel>()// connection between UI and VM
-                 vm.value.getAllProductsFromDB()
-                AppUI(
-                    vm.value.stateList,
-                    addNewProductClicked = {
-                    var intent = Intent(this,AddNewProductActivity::class.java)
-                    myLauncher!!.launch(intent)
-                }, oneProductClicked = {
-                    sp ->
-                    //selecedProduct = sp
-                      //  selectedProductID = sp.id
-                    var intent = Intent(this, EditProductActivity::class.java)
-                       intent.putExtra("toedit",sp)
-                        editLauncher!!.launch(intent)
+                var context = LocalContext.current
 
-                    })
+                vm = viewModels<ProductViewModel>()// connection between UI and VM
+               if (!isInSearch) {
+                   vm.value.getAllProductsFromDB()
+               }
+                Column {
+                    SearchBarUI("Enter a price filter") { price ->
+                        if (price.length >= 1) {
+                            isInSearch = true
+                            var priceV = price.toDouble()
+                            vm.value.filterProducts(priceV)
+                        }else {
+                            vm.value.getAllProductsFromDB()
+                        }
+                    }
+                    AppUI(
+                        vm.value.stateList,
+                        addNewProductClicked = {
+                            var intent = Intent(context, AddNewProductActivity::class.java)
+                            myLauncher!!.launch(intent)
+                        }, oneProductClicked = { product ->
+                            selectedProductDocID = product.id
+                            var intent = Intent(context, EditProductActivity::class.java)
+                            intent.putExtra("toedit", product)
+                            editLauncher!!.launch(intent)
+                        }, oneProductToDelete = {
+                            // alert
+                            vm.value.deleteOneDocument(it.id)
+                        })
+                }
             }
         }
     }
