@@ -28,13 +28,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.productsapp.Model.Product
+import com.example.productsapp.ViewModel.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppUI( list: SnapshotStateList<Product>,
+fun AppUI( list: List<Product>,
            addNewProductClicked: ()->Unit,
            oneProductClicked: (p: Product)->Unit
            ){
+
     Scaffold (
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -51,26 +53,26 @@ fun AppUI( list: SnapshotStateList<Product>,
         LazyColumn (
             modifier = Modifier.padding(innerPadding)
         ) {
-            items(count = list.toList().count() ){
+            items(count = list.size){
                 index: Int ->
                 Column (modifier = Modifier.clickable {
-                    oneProductClicked(list.toList()[index])
+                    oneProductClicked(list[index])
                 }) {
                     Row(
                         modifier = Modifier.fillMaxWidth().border(1.dp, Color.Black).padding(10.dp)
                     ) {
                         Column(modifier = Modifier.fillMaxWidth(0.7f)) {
-                            Text(fontSize = 20.sp, text = "Product: " + list.toList()[index].name)
+                            Text(fontSize = 20.sp, text = "Product: " + list[index].name)
                             Spacer(Modifier.height(10.dp))
                             Text(
                                 fontSize = 20.sp,
-                                text = "Price: " + list.toList()[index].price.toString()
+                                text = "Price: " + list[index].price.toString()
                             )
                         }
                         Column {
                             Text(
                                 fontSize = 20.sp,
-                                text = "Quantity: " + list.toList()[index].quantity.toString()
+                                text = "Quantity: " + list[index].quantity.toString()
                             )
                         }
                     }
