@@ -87,6 +87,7 @@ class MainActivity : ComponentActivity() {
                 var context = LocalContext.current
 
                 vm = viewModels<ProductViewModel>()// connection between UI and VM
+            //    vm.value.getAllProductsFromDB()// this should not be here
                if (!isInSearch) {
                    vm.value.getAllProductsFromDB()
                }

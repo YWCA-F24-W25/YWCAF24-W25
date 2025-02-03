@@ -51,6 +51,8 @@ import com.google.android.gms.maps.model.LatLng
 
 
 class WeatherInLocationActivity : ComponentActivity() {
+
+
         val locationPermissionRequestLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
@@ -65,7 +67,6 @@ class WeatherInLocationActivity : ComponentActivity() {
 
                 // no permission
             }
-
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
