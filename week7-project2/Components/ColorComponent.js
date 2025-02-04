@@ -18,10 +18,7 @@ export default function ColorComponent() {
                 height: 150,
                 backgroundColor: `rgb(${red},${green},${blue})`
             }} ></View>
-
-
             <Text> {red} - {green} - {blue}</Text>
-            
             
             <View style={styles.rowviewstyle}>
                   
