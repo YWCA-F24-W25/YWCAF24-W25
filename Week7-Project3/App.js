@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import FirstScreen from './Screens/FirstScreen';
+import UsersList from './Screens/UsersList'
 import SecondScreen from './Screens/SecondScreen';
 import NamesListScreen from './Screens/NamesListScreen';
 import AddingNewNameScreen from './Screens/AddingNewNameScreen';
@@ -29,7 +29,7 @@ export default function App() {
     <NavigationContainer>
       <tab.Navigator>
         <tab.Screen name='names' component={namesStack}/>
-        <tab.Screen name='Red' component={FirstScreen} />
+        <tab.Screen name='UsersList' component={UsersList} />
         <tab.Screen name='Green'  component={SecondScreen} />
       </tab.Navigator>
        
