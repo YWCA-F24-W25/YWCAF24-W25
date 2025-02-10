@@ -41,7 +41,7 @@ export default function UsersList() {
        <View style={styles.rowStyle}>
          <Image source={{uri : user.picture.thumbnail }} style={styles.imageStyle} ></Image>
           <View>
-             <Text> { user.name.title + " "}{user.name.first + " "} {user.name.last} </Text>
+           <Text> {user.name.title} {user.name.first} {user.name.last} </Text>
               <Text> { user.email}</Text>
          </View>
          </View>
