@@ -1,13 +1,69 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View , Alert} from 'react-native';
+import React, { useState , useEffect} from 'react';
 import SearchBar from '../Components/SearchBar';
+import Feather from '@expo/vector-icons/Feather';
+import * as SQLite from 'expo-sqlite';
 
 // basic state managment 
 // redux for advace state managment 
 
 export default function CitiesList({navigation}) {
-  const [cities, setCities] = useState(['']);
+  const [cities, setCities] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [db, setDB] = useState(null);
+
+  const initDB = async () => {
+    try {
+    const db = await SQLite.openDatabaseAsync('cities-db.db');
+    setDB(db);
+      console.log('db connected ');
+    await db.execAsync(`
+CREATE TABLE IF NOT EXISTS City (id INTEGER PRIMARY KEY NOT NULL, city TEXT NOT NULL);`);
+ console.log('table created/connected');
+      }catch (error) {
+        console.error(error)
+      }
+  };
+
+  const insertNewCity = async (cityname) => {
+    const statement = await db.prepareAsync(`INSERT INTO City (city) VALUES ($value);`);
+    try {
+      let result = await statement.executeAsync({ $value: cityname });
+      console.log('city inserted to db');
+      
+    }finally {
+    await statement.finalizeAsync();
+}
+  }
+
+    const alertFunction = (selectedCity) => {
+      console.log(selectedCity)
+      Alert.alert('Save to DB?','Do you want to save this city to Favorite Cities? ',
+        [
+        {
+          text: 'Yes',
+            onPress: () => {
+              console.log(selectedCity)
+              insertNewCity(selectedCity)
+              navigation.navigate('weatherScreen', { selectedCity: selectedCity })
+          }
+        },
+        {
+          text: 'No',
+          onPress: () => {
+              console.log(selectedCity)
+              navigation.navigate('weatherScreen', { selectedCity: selectedCity })
+
+          }
+        }
+      ])
+    }
+
+
+  useEffect(()=>{
+    initDB();
+    
+    },[])
 
   const fetchCities = async (searchValue) => { 
     fetch(`http://gd.geobytes.com/AutoCompleteCity?&q=${searchValue}`).
@@ -18,8 +74,10 @@ export default function CitiesList({navigation}) {
   }
 
    var cityRow = (city) => 
-     <TouchableOpacity onPress={() => {
-       navigation.navigate('weatherScreen', { selectedCity: city })
+     <TouchableOpacity
+    onPress={() => {
+      alertFunction(city)
+       
      }}>
        <View style={styles.rowStyle}>
           <View>
@@ -31,7 +89,9 @@ export default function CitiesList({navigation}) {
 
   return (
     <View style={styles.container}>
-      <SearchBar
+      <View style={styles.rowViewStyle}>
+        <SearchBar
+
         term={searchTerm}
         onTermChange={(newterm) => { 
           setSearchTerm(newterm)
@@ -39,14 +99,25 @@ export default function CitiesList({navigation}) {
               fetchCities(newterm)
           }
           if (newterm == ''){
-            setCities([''])
+            setCities([])
           }
-      }}/>
+          }} />
+        <TouchableOpacity onPress={() => {
+          navigation.navigate('FavoriteCities')
+        }}>
+           <Feather name="star" style={ styles.IconStyle} />
+        </TouchableOpacity>
+      </View>
+      {
+       cities.length > 0 ?
       <FlatList
         data={cities}
         keyExtractor={(item,i) => i}
         renderItem={(listItem)=> cityRow(listItem.item)}
       ></FlatList>
+      :
+      <Text>Start Seaching</Text>
+      }
          
     </View>
   );
@@ -71,5 +142,13 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 50,
     height: 50
+  },
+   IconStyle: {
+        fontSize: 35,
+        color: 'black',
+    },
+  rowViewStyle: {
+    flexDirection: 'row',
+    alignItems:'center'
   }
 });

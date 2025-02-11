@@ -3,6 +3,7 @@ import CitiesList from './Screens/CitiesList';
 import WeatherScreen from './Screens/WeatherScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import FavoriteCitiesScreens from './Screens/FavoriteCitiesScreen';
 
 export default function App() {
 
@@ -13,6 +14,8 @@ export default function App() {
        <stack.Navigator>
              <stack.Screen name='citiesList' component={CitiesList}></stack.Screen>
              <stack.Screen name='weatherScreen' component={WeatherScreen}></stack.Screen>
+             <stack.Screen name='FavoriteCities' component={FavoriteCitiesScreens}></stack.Screen>
+
       </stack.Navigator> 
        
       </NavigationContainer>

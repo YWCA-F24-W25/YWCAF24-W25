@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
         padding: 5,
         margin: 5,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        flex: 1
     },
     IconStyle: {
         fontSize: 35,
