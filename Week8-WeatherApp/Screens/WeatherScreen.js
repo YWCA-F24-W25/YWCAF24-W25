@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React , {useEffect, useState} from 'react';
-
+import WeatherCompnent from '../Components/WeatherComponent';
 export default function WeatherScreen({ route }) { 
     
     const { selectedCity } = route.params;
@@ -24,15 +24,14 @@ export default function WeatherScreen({ route }) {
   useEffect(()=>{
     fetchWeather()
   })
-
     return (
-   
-   <View style={styles.weatherView}>
-          <Text style={styles.textView}>{ name} </Text>
-        <Image style={styles.imageView} source={{uri: `https://openweathermap.org/img/wn/${icon}@2x.png`}}></Image>
-        <Text style={styles.textView}> { temp} c </Text>
-        <Text style={styles.textView}>{description} </Text>
-      </View>
+      <View style={styles.weatherView}>
+        <WeatherCompnent
+          name={name}
+          icon={icon}
+          temp={temp}
+          description={description} />
+    </View>
    
     );
 }

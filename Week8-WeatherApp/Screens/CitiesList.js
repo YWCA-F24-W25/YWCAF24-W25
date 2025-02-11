@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS City (id INTEGER PRIMARY KEY NOT NULL, city TEXT NOT 
             onPress: () => {
               console.log(selectedCity)
               insertNewCity(selectedCity)
+             
               navigation.navigate('weatherScreen', { selectedCity: selectedCity })
           }
         },
@@ -90,8 +91,12 @@ CREATE TABLE IF NOT EXISTS City (id INTEGER PRIMARY KEY NOT NULL, city TEXT NOT 
   return (
     <View style={styles.container}>
       <View style={styles.rowViewStyle}>
+        <TouchableOpacity onPress={() => {
+          navigation.navigate('LocationScreen')
+        }}>
+           <Feather name="navigation" style={ styles.IconStyle} />
+        </TouchableOpacity>
         <SearchBar
-
         term={searchTerm}
         onTermChange={(newterm) => { 
           setSearchTerm(newterm)
