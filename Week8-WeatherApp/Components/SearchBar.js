@@ -1,9 +1,6 @@
-import { StyleSheet, View , Button, TextInput} from 'react-native';
-import React, { useState } from "react";
+import { StyleSheet, View , TextInput} from 'react-native';
+import React from "react";
 import Feather from '@expo/vector-icons/Feather';
-
-
-
 export default function SearchBar({ term, onTermChange}) {
 
     // JSX object ===> HTML 

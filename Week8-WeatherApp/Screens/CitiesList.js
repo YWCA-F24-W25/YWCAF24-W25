@@ -59,8 +59,6 @@ CREATE TABLE IF NOT EXISTS City (id INTEGER PRIMARY KEY NOT NULL, city TEXT NOT 
         }
       ])
     }
-
-
   useEffect(()=>{
     initDB();
     
