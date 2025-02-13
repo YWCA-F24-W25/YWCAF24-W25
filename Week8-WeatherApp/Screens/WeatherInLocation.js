@@ -2,16 +2,30 @@ import { StyleSheet, View,Text } from 'react-native';
 import React , {useEffect, useState} from 'react';
 import WeatherCompnent from '../Components/WeatherComponent';
 import * as Location from 'expo-location';
+import MapView, {Marker} from 'react-native-maps';
 
 
-export default function WeatherInLocation({ route }) { 
+
+export default function WeatherInLocation() { 
     const [latitude, setLat] = useState(0);
     const [longitude, setLog] = useState(0);
      const [temp, setTemp] = useState(0)
     const [description, setDescription] = useState("")
     const [icon,SetIcon] = useState("")
-    const [name, setName] = useState("")
-  
+    const [name, setName] = useState("");
+
+  const [region, setRegion] = useState({
+    latitude: 37.78825, 
+    longitude: -122.4324, 
+    latitudeDelta: 0.0922, 
+    longitudeDelta: 0.0421 
+  });
+
+  const handleRegionChange = (newRegion) => {
+   
+    setRegion(newRegion); // Update state with new region if needed
+  };
+
     useEffect(() => {
     
         const fetchWeather = async (lat,lon) => { 
@@ -42,9 +56,15 @@ export default function WeatherInLocation({ route }) {
           console.log("New Location Found")
           setLat(location.coords.latitude)
           setLog(location.coords.longitude)
-         
-               console.log(location.coords.latitude);
-               console.log(location.coords.longitude);
+           console.log(location.coords.latitude);
+          console.log(location.coords.longitude);
+         handleRegionChange({
+                latitude: location.coords.latitude, 
+                longitude: location.coords.longitude, 
+                 latitudeDelta: 0.0922, 
+                 longitudeDelta: 0.0421 
+               })
+              
                fetchWeather(location.coords.latitude, location.coords.longitude)
         })
         
@@ -63,6 +83,17 @@ export default function WeatherInLocation({ route }) {
           icon={icon}
           temp={temp}
           description={description} /> 
+        <MapView
+          style={styles.map}
+          region={region} 
+          onRegionChange={handleRegionChange} 
+        >
+          <Marker
+            coordinate={{latitude: latitude, longitude: longitude}}
+            title={"my location"}
+/>
+        </MapView>
+        
     </View>
    
     );
@@ -94,5 +125,9 @@ const styles = StyleSheet.create({
   imageView: {
     width: 100,
     height: 100
-  }
+  },
+    map: {
+    width: '100%',
+    height: '50%',
+  },
 });
